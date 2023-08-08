@@ -1,15 +1,23 @@
 <template>
-  <div id="app">
-    <HelloWorld title="Hello" />
-  </div>
+  <v-app>
+    <v-main>
+      <TodoInput/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue"
+import TodoInput from './components/TodoInput.vue'
 
 export default {
+  name: 'App',
+
   components: {
-    HelloWorld: HelloWorld,
-  }
+    TodoInput,
+  },
+
+  data: () => ({
+    //
+  }),
 }
 </script>
