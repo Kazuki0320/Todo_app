@@ -1,20 +1,10 @@
 <template>
-  <v-app>
-    <v-main>
-      <TodoInput/>
-    </v-main>
-  </v-app>
+  <router-view />
 </template>
 
 <script>
-import TodoInput from './components/TodoInput.vue'
-
 export default {
   name: 'App',
-
-  components: {
-    TodoInput,
-  },
 
   data: () => ({
     //
