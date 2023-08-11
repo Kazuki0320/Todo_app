@@ -1,26 +1,36 @@
 <template>
   <v-app>
     <v-card>
-    <v-card-text>
-      <div class="d-flex pa-4">
-        <v-checkbox-btn
-          v-model="includeFiles"
-          class="checkbox"
-        ></v-checkbox-btn>
-        <v-text-field
-          :disabled="includeFiles"
-          hide-details
-          label="Todoの内容を記述してください。"
-        ></v-text-field>
-      </div>
-    </v-card-text>
-  </v-card>
+      <v-card-text>
+        <div class="d-flex pa-4">
+          <v-checkbox-btn
+            v-model="includeFiles"
+            class="checkbox"
+          ></v-checkbox-btn>
+          <v-text-field
+            v-model="massage"
+            :disabled="includeFiles"
+            hide-details
+            label="Todoの内容を記述してください。"
+          ></v-text-field>
+        </div>
+      </v-card-text>
+    </v-card>
   </v-app>
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+import { ref, watch } from 'vue';
+import { useStore } from 'vuex';
 
-  const includeFiles = ref(false)
+const store = useStore();
+const includeFiles = ref(false);
+const massage = ref('');
 
+// massage の変更を監視し、ストアに値を更新
+watch(massage, (newValue) => {
+  if (!includeFiles.value) {
+    store.dispatch('updateMessage', newValue);
+  }
+});
 </script>
