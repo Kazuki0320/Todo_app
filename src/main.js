@@ -1,7 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import store from './store'; // Vuex ストアをインポート
-
 import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.css'
 import { createVuetify } from 'vuetify'
@@ -17,3 +16,4 @@ const app = createApp(App);
 app.use(store); // Vuex ストアをアプリケーションに統合
 app.use(vuetify); // Vuetify インスタンスをアプリケーションに統合
 app.mount('#app');
+
