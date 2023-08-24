@@ -26,9 +26,10 @@
       <v-row>
         <v-col
         cols="12">
-          <v-list
-            v-if="isDisplay">
-            <v-list-item>
+          <v-list>
+            <v-list-item
+              v-for="todoValue in todoValues"
+              :key="todoValue">
               <div class="d-flex pa-4">
                 <v-checkbox-btn
                   v-model="isCheckBoxValid"
@@ -78,24 +79,26 @@ import { useStore } from 'vuex';
 const store = useStore();
 const isDisplay = ref(false);
 const isCheckBoxValid = ref(false);
-const todoData = ref('');
+const todoData = ref("");
+const todoArray = [];
+const todoStates = ref({}); 
 
 const addTodoEvent = () => {
+  
+  todoArray.push(todoData.value);
   if (todoData.value) {
-    store.dispatch('updateTodo', todoData.value);
-    todoData.value = '';
+    store.dispatch('updateTodo', todoArray);
+    todoData.value = "";
   } else {
     alert("値を入力してください");
   }
-
-  isDisplay.value = true;
 }
 
 const handleEnterKey = () => {
   addTodoEvent();
 }
 
-const todoValue = computed(() => store.getters.todo);
+const todoValues = computed(() => store.getters.todo);
 
 // style オプション内でCSSを定義
 const cardTextStyle = `
