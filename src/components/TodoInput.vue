@@ -28,8 +28,8 @@
         cols="12">
           <v-list>
             <v-list-item
-              v-for="todoValue in todoValues"
-              :key="todoValue">
+            v-for="todoValue in todoValues"
+            :key="todoValue">
               <div class="d-flex pa-4">
                 <v-checkbox-btn
                   v-model="isCheckBoxValid"
@@ -77,15 +77,13 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const isDisplay = ref(false);
 const isCheckBoxValid = ref(false);
 const todoData = ref("");
-const todoArray = [];
-const todoStates = ref({}); 
+const todoArray = ref([]);
 
 const addTodoEvent = () => {
   
-  todoArray.push(todoData.value);
+  todoArray.value.push(todoData.value);
   if (todoData.value) {
     store.dispatch('updateTodo', todoArray);
     todoData.value = "";
@@ -96,8 +94,8 @@ const addTodoEvent = () => {
 
 const handleEnterKey = () => {
   addTodoEvent();
+  todoData.value = "";
 }
-
 const todoValues = computed(() => store.getters.todo);
 
 // style オプション内でCSSを定義
