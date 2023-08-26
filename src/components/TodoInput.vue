@@ -7,10 +7,10 @@
           <v-col
           cols="8">
             <v-text-field
-              v-model="todoData"
+              v-model="newTodoTheme"
               hide-details
               label="Todoの内容を記述してください。"
-              @keydown.enter="handleEnterKey"
+              @keydown.enter="addTodoEvent"
             ></v-text-field>
             <v-btn
             class="ma-5"
@@ -32,11 +32,11 @@
             :key="todoValue">
               <div class="d-flex pa-4">
                 <v-checkbox-btn
-                  v-model="isCheckBoxValid"
+                  v-model="isChecked"
                   class="checkbox"
                 ></v-checkbox-btn>
                 <v-card
-                  v-if="isCheckBoxValid"
+                  v-if="isChecked"
                   color="grey"
                   :style="cardContent"
                   class="pa-2"
@@ -44,7 +44,7 @@
                   tile>
                   <v-list-item-title
                     :style="cardTextStyle"
-                    :disabled="isCheckBoxValid"
+                    :disabled="isChecked"
                     hide-details>
                     {{ todoValue }}
                   </v-list-item-title>
@@ -57,7 +57,7 @@
                   tile>
                   <v-list-item-title
                     :style="cardTextStyle"
-                    :disabled="isCheckBoxValid"
+                    :disabled="isChecked"
                     hide-details>
                     {{ todoValue }}
                   </v-list-item-title>
@@ -77,26 +77,19 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const isCheckBoxValid = ref(false);
-const todoData = ref("");
-const todoArray = ref([]);
+const isChecked = ref(false);
+const newTodoTheme = ref("");
+const todoValues = computed(() => store.getters.todoList);
 
 const addTodoEvent = () => {
-  
-  todoArray.value.push(todoData.value);
-  if (todoData.value) {
-    store.dispatch('updateTodo', todoArray);
-    todoData.value = "";
+  if (newTodoTheme.value) {
+    todoValues.value.push(newTodoTheme.value);
+    store.dispatch('updateTodo', todoValues.value);
+    newTodoTheme.value = "";
   } else {
     alert("値を入力してください");
   }
 }
-
-const handleEnterKey = () => {
-  addTodoEvent();
-  todoData.value = "";
-}
-const todoValues = computed(() => store.getters.todo);
 
 // style オプション内でCSSを定義
 const cardTextStyle = `
