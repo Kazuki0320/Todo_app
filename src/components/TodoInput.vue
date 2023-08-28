@@ -83,8 +83,7 @@ const todoValues = computed(() => store.getters.todoList);
 
 const addTodoEvent = () => {
   if (newTodoTheme.value) {
-    todoValues.value.push(newTodoTheme.value);
-    store.dispatch('updateTodo', todoValues.value);
+    store.dispatch('updateTodo', [...store.getters.todoList, newTodoTheme.value]);
     newTodoTheme.value = "";
   } else {
     alert("値を入力してください");
