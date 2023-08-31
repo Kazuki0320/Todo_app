@@ -28,15 +28,14 @@
         cols="12">
           <v-list>
             <v-list-item
-            v-for="todoValue in todoValues"
-            :key="todoValue">
+            v-for="(todoValue, index) in todoValues" :key="index">
               <div class="d-flex pa-4">
                 <v-checkbox-btn
-                  v-model="isChecked"
+                  v-model="todoValue.isChecked"
                   class="checkbox"
                 ></v-checkbox-btn>
                 <v-card
-                  v-if="isChecked"
+                  v-if="todoValue.isChecked"
                   color="grey"
                   :style="cardContent"
                   class="pa-2"
@@ -44,9 +43,8 @@
                   tile>
                   <v-list-item-title
                     :style="cardTextStyle"
-                    :disabled="isChecked"
                     hide-details>
-                    {{ todoValue }}
+                    {{ todoValue.name }}
                   </v-list-item-title>
                 </v-card>
                 <v-card
@@ -57,9 +55,8 @@
                   tile>
                   <v-list-item-title
                     :style="cardTextStyle"
-                    :disabled="isChecked"
                     hide-details>
-                    {{ todoValue }}
+                    {{ todoValue.name }}
                   </v-list-item-title>
                 </v-card>
               </div>
@@ -77,13 +74,17 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const isChecked = ref(false);
 const newTodoTheme = ref("");
 const todoValues = computed(() => store.getters.todoList);
+let todoValueList = ref("");
 
 const addTodoEvent = () => {
   if (newTodoTheme.value) {
-    store.dispatch('updateTodo', [...store.getters.todoList, newTodoTheme.value]);
+    todoValueList = {
+      name: newTodoTheme.value,
+      isChecked: false
+    }
+    store.dispatch('updateTodo', [...store.getters.todoList, todoValueList]);
     newTodoTheme.value = "";
   } else {
     alert("値を入力してください");
