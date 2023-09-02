@@ -76,18 +76,15 @@ import { useStore } from 'vuex';
 const store = useStore();
 const newTodoTheme = ref("");
 const todoValues = computed(() => store.getters.todoList);
-let todoValueList = ref("");
 
 const addTodoEvent = () => {
   if (newTodoTheme.value) {
-    todoValueList = {
+    const newTodo = {
       name: newTodoTheme.value,
       isChecked: false
-    }
-    store.dispatch('updateTodo', [...store.getters.todoList, todoValueList]);
+    };
+    store.dispatch('updateTodo', [...store.getters.todoList, newTodo]);
     newTodoTheme.value = "";
-  } else {
-    alert("値を入力してください");
   }
 }
 
