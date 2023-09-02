@@ -2,10 +2,10 @@ import { createStore } from 'vuex';
 
 const store = createStore({
   state: {
-    todoList: []
+    message: ''
   },
   getters: {
-    todoList: state => state.todoList,
+    message: state => state.message,
   },
   mutations: {
     updateTodo(state, newTodo) {
