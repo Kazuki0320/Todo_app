@@ -1,6 +1,6 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import store from './store';
+import { createApp } from "vue";
+import App from "./App.vue";
+import store from "./store"; // Vuex ストアをインポート
 
 import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.css'
@@ -26,8 +26,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 const app = createApp(App);
-app.use(store);
-app.use(vuetify);
+app.use(store); // Vuex ストアをアプリケーションに統合
+app.use(vuetify); // Vuetify インスタンスをアプリケーションに統合
 app.use(router);
-app.mount('#app');
-
+app.mount("#app");
