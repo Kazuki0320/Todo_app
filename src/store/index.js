@@ -11,11 +11,17 @@ const store = createStore({
     updateTodo(state, newTodo) {
       state.todoList = newTodo
     },
+    deleteTodo(state, index) {
+      state.todoList.splice(index, 1);
+    }
   },
   actions: {
     updateTodo({commit}, newTodo) {
       commit("updateTodo", newTodo)
     },
+    deleteTodo({commit}, index) {
+      commit("deleteTodo", index)
+    }
   },
 });
 

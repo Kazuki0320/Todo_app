@@ -50,7 +50,7 @@
                 <v-card
                   v-else
                   :style="cardContent"
-                  class="pa-2"
+                  class="pa-2 ma-2"
                   outlined
                   tile>
                   <v-list-item-title
@@ -59,6 +59,15 @@
                     {{ todoValue.name }}
                   </v-list-item-title>
                 </v-card>
+                <v-btn
+                  class="ma-2"
+                  color="red"
+                  height="40"
+                  type="submit"
+                  @click="deleteEvent(index)"
+                  >
+                  削除ボタン
+                </v-btn>
               </div>
             </v-list-item>
           </v-list>
@@ -87,6 +96,14 @@ const addTodoEvent = () => {
     newTodoTheme.value = "";
   }
 }
+
+const deleteEvent = (index) => {
+  confirm("本当に削除していいですか？");
+  if(confirm) {
+    store.dispatch('deleteTodo', index);
+  }
+}
+
 
 // style オプション内でCSSを定義
 const cardTextStyle = `
