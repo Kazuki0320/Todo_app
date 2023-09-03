@@ -87,7 +87,7 @@ const newTodoTheme = ref("");
 const todoValues = computed(() => store.getters.todoList);
 
 const addTodoEvent = () => {
-  if (newTodoTheme.value) {
+if (newTodoTheme.value) {
     const newTodo = {
       name: newTodoTheme.value,
       isChecked: false
@@ -100,7 +100,11 @@ const addTodoEvent = () => {
 const deleteEvent = (index) => {
   confirm("本当に削除していいですか？");
   if(confirm) {
-    store.dispatch('deleteTodo', index);
+    const todoList = [...store.getters.todoList];
+    if (index >= 0 && index < todoList.length) {
+      todoList.splice(index, 1);
+      store.dispatch('updateTodo', todoList);
+    }
   }
 }
 
