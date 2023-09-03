@@ -1,6 +1,7 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import store from './store';
+import { createApp } from "vue";
+import App from "./App.vue";
+import store from "./store"; // Vuex ストアをインポート
+
 import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.css'
 import { createVuetify } from 'vuetify'
