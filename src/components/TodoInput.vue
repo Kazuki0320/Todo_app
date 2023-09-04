@@ -87,32 +87,28 @@ const newTodoTheme = ref("");
 const todoValues = computed(() => store.getters.todoList);
 
 const addTodoEvent = () => {
-if (newTodoTheme.value) {
-    const newTodo = {
-      name: newTodoTheme.value,
-      isChecked: false
-    };
-    store.dispatch('updateTodo', [...store.getters.todoList, newTodo]);
-    newTodoTheme.value = "";
-  }
+if (!newTodoTheme.value) return;
+  const newTodo = {
+    name: newTodoTheme.value,
+    isChecked: false
+  };
+  store.dispatch('updateTodoList', [...todoValues.value, newTodo]);
+  newTodoTheme.value = "";
 }
 
 const deleteEvent = (index) => {
   confirm("本当に削除していいですか？");
-  if(confirm) {
-    const todoList = [...store.getters.todoList];
-    if (index >= 0 && index < todoList.length) {
-      todoList.splice(index, 1);
-      store.dispatch('updateTodo', todoList);
-    }
-  }
+  if(!confirm) return;
+  const todoList = [...todoValues.value];
+  todoList.splice(index, 1);
+  store.dispatch('updateTodoList', todoList);
 }
 
 
 // style オプション内でCSSを定義
 const cardTextStyle = `
+font-size: 20%; /* カードの高さに対して相対的なフォントサイズを設定 */
 .card-text {
-    font-size: 20%; /* カードの高さに対して相対的なフォントサイズを設定 */
   }`
 
 const cardContent =`
