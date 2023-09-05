@@ -101,9 +101,9 @@ const deleteEvent = (index) => {
   confirm("本当に削除していいですか？");
   if(!confirm) return;
   
-  const todoList = [...todoValues.value];
-  todoList.splice(index, 1);
-  store.dispatch('updateTodoList', todoList);
+  const updatedTodoList = [...todoValues.value];
+  updatedTodoList.splice(index, 1);
+  store.dispatch('updateTodoList', updatedTodoList);
 }
 
 
