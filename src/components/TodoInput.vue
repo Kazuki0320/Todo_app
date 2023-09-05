@@ -110,8 +110,7 @@ const deleteEvent = (index) => {
 // style オプション内でCSSを定義
 const cardTextStyle = `
 font-size: 20%; /* カードの高さに対して相対的なフォントサイズを設定 */
-.card-text {
-  }`
+`
 
 const cardContent =`
 .card-content {
