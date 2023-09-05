@@ -10,13 +10,13 @@
               v-model="newTodoTheme"
               hide-details
               label="Todoの内容を記述してください。"
-              @keydown.enter="addTodoEvent"
+              @keydown.enter="handleAddTodo"
             ></v-text-field>
             <v-btn
             class="ma-5"
             type="submit"
             color="hsla(200, 80%, 50%, 1)"
-            @click="addTodoEvent">
+            @click="handleAddTodo">
             追加
             </v-btn>
           </v-col>
@@ -64,7 +64,7 @@
                   color="red"
                   height="40"
                   type="submit"
-                  @click="deleteEvent(index)"
+                  @click="handleDeleteTodo(index)"
                   >
                   削除ボタン
                 </v-btn>
@@ -86,7 +86,7 @@ const store = useStore();
 const newTodoTheme = ref("");
 const todoValues = computed(() => store.getters.todoList);
 
-const addTodoEvent = () => {
+const handleAddTodo = () => {
   if (!newTodoTheme.value) return;
 
   const newTodo = {
@@ -97,7 +97,7 @@ const addTodoEvent = () => {
   newTodoTheme.value = "";
 }
 
-const deleteEvent = (index) => {
+const handleDeleteTodo = (index) => {
   confirm("本当に削除していいですか？");
   if(!confirm) return;
   
