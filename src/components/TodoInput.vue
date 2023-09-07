@@ -10,13 +10,13 @@
               v-model="newTodoTheme"
               hide-details
               label="Todoの内容を記述してください。"
-              @keydown.enter="addTodoEvent"
+              @keydown.enter="handleAddTodo"
             ></v-text-field>
             <v-btn
             class="ma-5"
             type="submit"
             color="hsla(200, 80%, 50%, 1)"
-            @click="addTodoEvent">
+            @click="handleAddTodo">
             追加
             </v-btn>
           </v-col>
@@ -50,7 +50,7 @@
                 <v-card
                   v-else
                   :style="cardContent"
-                  class="pa-2"
+                  class="pa-2 ma-2"
                   outlined
                   tile>
                   <v-list-item-title
@@ -59,6 +59,15 @@
                     {{ todoValue.name }}
                   </v-list-item-title>
                 </v-card>
+                <v-btn
+                  class="ma-2"
+                  color="red"
+                  height="40"
+                  type="submit"
+                  @click="handleDeleteTodo(index)"
+                  >
+                  削除ボタン
+                </v-btn>
               </div>
             </v-list-item>
           </v-list>
@@ -77,22 +86,31 @@ const store = useStore();
 const newTodoTheme = ref("");
 const todoValues = computed(() => store.getters.todoList);
 
-const addTodoEvent = () => {
-  if (newTodoTheme.value) {
-    const newTodo = {
-      name: newTodoTheme.value,
-      isChecked: false
-    };
-    store.dispatch('updateTodo', [...store.getters.todoList, newTodo]);
-    newTodoTheme.value = "";
-  }
+const handleAddTodo = () => {
+  if (!newTodoTheme.value) return;
+
+  const newTodo = {
+    name: newTodoTheme.value,
+    isChecked: false
+  };
+  store.dispatch('updateTodoList', [...todoValues.value, newTodo]);
+  newTodoTheme.value = "";
 }
+
+const handleDeleteTodo = (index) => {
+  confirm("本当に削除していいですか？");
+  if(!confirm) return;
+  
+  const updatedTodoList = [...todoValues.value];
+  updatedTodoList.splice(index, 1);
+  store.dispatch('updateTodoList', updatedTodoList);
+}
+
 
 // style オプション内でCSSを定義
 const cardTextStyle = `
-.card-text {
-    font-size: 20%; /* カードの高さに対して相対的なフォントサイズを設定 */
-  }`
+font-size: 20%; /* カードの高さに対して相対的なフォントサイズを設定 */
+`
 
 const cardContent =`
 .card-content {

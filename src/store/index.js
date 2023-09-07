@@ -8,13 +8,13 @@ const store = createStore({
     todoList: state => state.todoList,
   },
   mutations: {
-    updateTodo(state, newTodo) {
+    updateTodoList(state, newTodo) {
       state.todoList = newTodo
     },
   },
   actions: {
-    updateTodo({commit}, newTodo) {
-      commit("updateTodo", newTodo)
+    updateTodoList({commit}, newTodo) {
+      commit("updateTodoList", newTodo)
     },
   },
 });
