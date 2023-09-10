@@ -61,12 +61,49 @@
                 </v-card>
                 <v-btn
                   class="ma-2"
+                  color="blue"
+                  height="40"
+                  type="submit"
+                  @click="handleOpenModal(index)">
+                  編集
+                  <v-dialog
+                    v-model="showDialog[index]"
+                    persistent
+                    width="1024">
+                    <v-card>
+                      <v-card-title>
+                        <span class="text-h5">todo編集</span>
+                      </v-card-title>
+                      <v-card-text>
+                        <v-container>
+                          <v-text-field v-model="todoValue.name"
+                          ></v-text-field>
+                        </v-container>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="blue-darken-1"
+                          variant="text"
+                          @click="handleCloseModal(index)">
+                          キャンセル
+                        </v-btn>
+                        <v-btn
+                          color="blue-darken-1"
+                          variant="text">
+                          更新
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-btn>
+                <v-btn
+                  class="ma-2"
                   color="red"
                   height="40"
                   type="submit"
-                  @click="handleDeleteTodo(index)"
-                  >
-                  削除ボタン
+                  @click="handleDeleteTodo(index)">
+                  削除
                 </v-btn>
               </div>
             </v-list-item>
@@ -85,6 +122,7 @@ import { useStore } from 'vuex';
 const store = useStore();
 const newTodoTheme = ref("");
 const todoValues = computed(() => store.getters.todoList);
+const showDialog = ref({});
 
 const handleAddTodo = () => {
   if (!newTodoTheme.value) return;
@@ -104,6 +142,14 @@ const handleDeleteTodo = (index) => {
   const updatedTodoList = [...todoValues.value];
   updatedTodoList.splice(index, 1);
   store.dispatch('updateTodoList', updatedTodoList);
+}
+
+const handleOpenModal = (index) => {
+  showDialog.value[index] = true;
+}
+
+const handleCloseModal = (index) => {
+  showDialog.value[index] = false;
 }
 
 
