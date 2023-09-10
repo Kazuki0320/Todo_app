@@ -90,7 +90,8 @@
                         </v-btn>
                         <v-btn
                           color="blue-darken-1"
-                          variant="text">
+                          variant="text"
+                          @click="handleUpdateTodo(index)">
                           更新
                         </v-btn>
                       </v-card-actions>
@@ -133,6 +134,11 @@ const handleAddTodo = () => {
   };
   store.dispatch('updateTodoList', [...todoValues.value, newTodo]);
   newTodoTheme.value = "";
+}
+
+const handleUpdateTodo = (index) => {
+  store.dispatch('updateTodoList', todoValues.value);
+  showDialog.value[index] = false;
 }
 
 const handleDeleteTodo = (index) => {
