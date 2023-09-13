@@ -161,8 +161,9 @@ const handleCloseModal = (index) => {
 
 // style オプション内でCSSを定義
 const cardTextStyle = `
-font-size: 20%; /* カードの高さに対して相対的なフォントサイズを設定 */
-`
+.card-text {
+    font-size: 20%; /* カードの高さに対して相対的なフォントサイズを設定 */
+  }`
 
 const cardContent =`
 .card-content {
