@@ -66,37 +66,6 @@
                   type="submit"
                   @click="handleOpenModal(index)">
                   編集
-                  <v-dialog
-                    v-model="showDialog[index]"
-                    persistent
-                    width="1024">
-                    <v-card>
-                      <v-card-title>
-                        <span class="text-h5">todo編集</span>
-                      </v-card-title>
-                      <v-card-text>
-                        <v-container>
-                          <v-text-field v-model="todoValue.name"
-                          ></v-text-field>
-                        </v-container>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          color="blue-darken-1"
-                          variant="text"
-                          @click="handleCloseModal(index)">
-                          キャンセル
-                        </v-btn>
-                        <v-btn
-                          color="blue-darken-1"
-                          variant="text"
-                          @click="handleUpdateTodo(index)">
-                          更新
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
                 </v-btn>
                 <v-btn
                   class="ma-2"
@@ -112,18 +81,56 @@
         </v-col>
       </v-row>
       </v-container>
+      <v-dialog
+        v-model="showDialog"
+        persistent
+        width="1024">
+        <v-card>
+          <v-card-title>
+            <span class="text-h5">todo編集</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-text-field v-model="editModalTarget.todo.name"
+              ></v-text-field>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue-darken-1"
+              variant="text"
+              @click="handleCloseModal">
+              キャンセル
+            </v-btn>
+            <v-btn
+              color="blue-darken-1"
+              variant="text"
+              @click="handleUpdateTodo">
+              更新
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-main>
   </v-app>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, reactive } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
 const newTodoTheme = ref("");
 const todoValues = computed(() => store.getters.todoList);
-const showDialog = ref({});
+const showDialog = ref(false);
+const editModalTarget = reactive({
+  index: 0,
+  todo: {
+    name: "",
+    isChecked: false
+  }
+});
 
 const handleAddTodo = () => {
   if (!newTodoTheme.value) return;
@@ -136,26 +143,39 @@ const handleAddTodo = () => {
   newTodoTheme.value = "";
 }
 
-const handleUpdateTodo = (index) => {
-  store.dispatch('updateTodoList', todoValues.value);
-  showDialog.value[index] = false;
+const handleUpdateTodo = () => {
+  const updatedTodoList = [...todoValues.value];
+  updatedTodoList.splice(editModalTarget.value.index, 1, editModalTarget.value.todo);
+  store.dispatch('updateTodoList', updatedTodoList);
+
+  editModalTarget.value = {};
+  showDialog.value = false;
 }
 
 const handleDeleteTodo = (index) => {
   confirm("本当に削除していいですか？");
   if(!confirm) return;
-  
+
   const updatedTodoList = [...todoValues.value];
   updatedTodoList.splice(index, 1);
   store.dispatch('updateTodoList', updatedTodoList);
 }
 
 const handleOpenModal = (index) => {
-  showDialog.value[index] = true;
+  editModalTarget.value = {
+    index: index,
+    todo: Object.assign({}, todoValues.value[index])
+  };
+
+  console.log("todoValues1", todoValues.value);
+  console.log("todoValues2", todoValues);
+  console.log("editModalTarget", editModalTarget.value);
+  showDialog.value = true;
 }
 
-const handleCloseModal = (index) => {
-  showDialog.value[index] = false;
+const handleCloseModal = () => {
+  editModalTarget.value = {};
+  showDialog.value = false;
 }
 
 
