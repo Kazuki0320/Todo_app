@@ -4,34 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-
+use Illuminate\Support\Facades\Log;
 class PostController extends Controller
 {
     //
     # 投稿作成
     public function create(Request $request)
     {
-        var_dump("test");
         $post = new Post();
-        var_dump("test1");
         $post->title = $request->input('title');
         $post->content = $request->input('content');
-        var_dump($post->content);
-        var_dump("test3");
-        // $post->created_at = now();
-        var_dump("test4");
-        // $post->updated_at = now();
-        var_dump("test5");
-        $post->save();
-        var_dump("test6");
-        
-        return null;//response()->json(Post::all());
+
+        $post->save(); // ここでcreated_atとupdated_atは自動的に設定されます
+
+        return response()->json(Post::all());
     }
+
 
     # 全件取得
     public function index()
     {
         $posts = Post::all();
+
         return response()->json($posts);
     }
 
