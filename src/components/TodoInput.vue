@@ -124,13 +124,7 @@ const store = useStore();
 const newTodoTheme = ref("");
 const todoValues = computed(() => store.getters.todoList);
 const showDialog = ref(false);
-const editModalTarget = reactive({
-  index: 0,
-  todo: {
-    name: "",
-    isChecked: false
-  }
-});
+const editModalTarget = ref({});
 
 const handleAddTodo = () => {
   if (!newTodoTheme.value) return;
@@ -148,7 +142,6 @@ const handleUpdateTodo = () => {
   updatedTodoList.splice(editModalTarget.value.index, 1, editModalTarget.value.todo);
   store.dispatch('updateTodoList', updatedTodoList);
 
-  editModalTarget.value = {};
   showDialog.value = false;
 }
 
@@ -167,17 +160,12 @@ const handleOpenModal = (index) => {
     todo: Object.assign({}, todoValues.value[index])
   };
 
-  console.log("todoValues1", todoValues.value);
-  console.log("todoValues2", todoValues);
-  console.log("editModalTarget", editModalTarget.value);
   showDialog.value = true;
 }
 
 const handleCloseModal = () => {
-  editModalTarget.value = {};
   showDialog.value = false;
 }
-
 
 // style オプション内でCSSを定義
 const cardTextStyle = `
