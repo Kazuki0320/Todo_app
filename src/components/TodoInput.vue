@@ -61,12 +61,19 @@
                 </v-card>
                 <v-btn
                   class="ma-2"
+                  color="blue"
+                  height="40"
+                  type="submit"
+                  @click="handleOpenModal(index)">
+                  編集
+                </v-btn>
+                <v-btn
+                  class="ma-2"
                   color="red"
                   height="40"
                   type="submit"
-                  @click="handleDeleteTodo(index)"
-                  >
-                  削除ボタン
+                  @click="handleDeleteTodo(index)">
+                  削除
                 </v-btn>
               </div>
             </v-list-item>
@@ -74,17 +81,50 @@
         </v-col>
       </v-row>
       </v-container>
+      <v-dialog
+        v-model="showDialog"
+        persistent
+        width="1024">
+        <v-card>
+          <v-card-title>
+            <span class="text-h5">todo編集</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-text-field v-model="editModalTarget.todo.name"
+              ></v-text-field>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue-darken-1"
+              variant="text"
+              @click="handleCloseModal">
+              キャンセル
+            </v-btn>
+            <v-btn
+              color="blue-darken-1"
+              variant="text"
+              @click="handleUpdateTodo">
+              更新
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-main>
   </v-app>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, reactive } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
 const newTodoTheme = ref("");
 const todoValues = computed(() => store.getters.todoList);
+const showDialog = ref(false);
+const editModalTarget = ref({});
 
 const handleAddTodo = () => {
   if (!newTodoTheme.value) return;
@@ -97,20 +137,41 @@ const handleAddTodo = () => {
   newTodoTheme.value = "";
 }
 
+const handleUpdateTodo = () => {
+  const updatedTodoList = [...todoValues.value];
+  updatedTodoList.splice(editModalTarget.value.index, 1, editModalTarget.value.todo);
+  store.dispatch('updateTodoList', updatedTodoList);
+
+  showDialog.value = false;
+}
+
 const handleDeleteTodo = (index) => {
   confirm("本当に削除していいですか？");
   if(!confirm) return;
-  
+
   const updatedTodoList = [...todoValues.value];
   updatedTodoList.splice(index, 1);
   store.dispatch('updateTodoList', updatedTodoList);
 }
 
+const handleOpenModal = (index) => {
+  editModalTarget.value = {
+    index: index,
+    todo: Object.assign({}, todoValues.value[index])
+  };
+
+  showDialog.value = true;
+}
+
+const handleCloseModal = () => {
+  showDialog.value = false;
+}
 
 // style オプション内でCSSを定義
 const cardTextStyle = `
-font-size: 20%; /* カードの高さに対して相対的なフォントサイズを設定 */
-`
+.card-text {
+    font-size: 20%; /* カードの高さに対して相対的なフォントサイズを設定 */
+  }`
 
 const cardContent =`
 .card-content {
