@@ -16,8 +16,7 @@ use App\Http\Controllers\PostController;
 */
 
 Route::get('/', function () {
-    logger("aaa");
-    return view('welcome');
+    return view('app');
 });
 # 投稿一覧表示
 Route::get('/posts', [PostController::class, 'index']);

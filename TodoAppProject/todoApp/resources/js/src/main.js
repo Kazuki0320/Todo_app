@@ -26,7 +26,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 const app = createApp(App);
-app.use(store); // Vuex ストアをアプリケーションに統合
-app.use(vuetify); // Vuetify インスタンスをアプリケーションに統合
+app.use(store);
+app.use(vuetify);
 app.use(router);
 app.mount("#app");
