@@ -7,10 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    // use HasFactory;
-     // fillableに指定したプロパティは入力可能になる
-     protected  $fillable = [
+    protected  $fillable = [
         'title',
         'content',
-      ];
+    ];
 }

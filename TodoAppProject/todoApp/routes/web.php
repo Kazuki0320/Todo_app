@@ -15,22 +15,15 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::get('/', function () {
-    return view('app');
+Route::middleware(['middleware' => 'web'])->group(function () {
+    //todo作成
+    Route::get('/todo', [PostController::class, 'create']);
+    //todo一覧表示
+    Route::post('/posts', [PostController::class, 'index']);
+    //todo削除
+    Route::get('/todoDelete',  [PostController::class, 'todoDelete']);
+    Route::delete('/todoDelete', [PostController::class, 'todoDelete']);
+    //todo編集
+    Route::get('/todoUpdate', [PostController::class, 'todoUpdate']);
+    Route::patch('/todoUpdate', [PostController::class, 'todoUpdate']);
 });
-# 投稿一覧表示
-Route::get('/posts', [PostController::class, 'index']);
-
-// Route::middleware(['middleware' => 'api'])->group(function () {
-//     # 投稿作成
-//     Route::post('/posts/create', [PostController::class, 'create']);
-//     // Route::post('/posts/create', 'PostController@create');
-//     # 投稿一覧表示
-//     Route::get('/posts', 'PostController@index');
-//     # 投稿表示
-//     Route::get('/posts/{id}', 'PostController@show');
-//     # 投稿編集
-//     Route::patch('/posts/update/{id}' , 'PostController@update');
-//     # 投稿削除
-//     Route::delete('/posts/{id}', 'PostController@delete');
-// });

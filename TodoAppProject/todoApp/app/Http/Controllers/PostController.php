@@ -4,22 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Todo;
+
 use Illuminate\Support\Facades\Log;
 class PostController extends Controller
 {
-    //
-    # 投稿作成
-    public function create(Request $request)
+    //todo作成
+    public function create()
     {
-        $post = new Post();
-        $post->title = $request->input('title');
-        $post->content = $request->input('content');
+        $todo = new Todo();
 
-        $post->save(); // ここでcreated_atとupdated_atは自動的に設定されます
+        $todo->create([
+            'id' => '1',
+            'title' => 'testTitle',
+        ]);
 
-        return response()->json(Post::all());
+        $todo->save();
     }
-
 
     # 全件取得
     public function index()
@@ -29,28 +30,22 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
-    # 投稿表示
-    public function show(Int $id)
+    # todo削除
+    public function todoDelete()
     {
-        $post = Post::find($id);
-        return response()->json($post);
+        //ダミーデータ確認
+        $todoDeleted = Todo::where('id', 5)->delete();
+
+        return response()->json($todoDeleted);
     }
 
-    # 投稿編集
-    public function update(Int $id, Request $request)
+    # todo編集
+    public function todoUpdate()
     {
-        $post = Post::find($id);
-        $post->title = $request->input('title');
-        $post->content = $request->input('content');
-        $post->updated_at = now();
-        $post->save();
-        return response()->json($post);
-    }
+        //ダミーデータ確認
+        $todoUpdate = Todo::where('id', 1)
+        ->update(['title' => 'AAA']);
 
-    # 投稿削除
-    public function delete(Int $id)
-    {
-        $post = Post::find($id)->delete();
-        return response()->json(Post::all());
+        return response()->json($todoUpdate);
     }
 }
