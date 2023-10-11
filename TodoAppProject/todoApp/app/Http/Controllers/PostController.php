@@ -6,20 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Todo;
 
-use Illuminate\Support\Facades\Log;
 class PostController extends Controller
 {
     //todo作成
     public function create()
     {
-        $todo = new Todo();
-
-        $todo->create([
-            'id' => '1',
+        Todo::create([
             'title' => 'testTitle',
         ]);
-
-        $todo->save();
     }
 
     # 全件取得
@@ -31,20 +25,18 @@ class PostController extends Controller
     }
 
     # todo削除
-    public function todoDelete()
+    public function todoDelete($id)
     {
-        //ダミーデータ確認
-        $todoDeleted = Todo::where('id', 5)->delete();
+        $todo = Todo::find($id);
+        $todoDeleted = $todo->delete();
 
         return response()->json($todoDeleted);
     }
 
     # todo編集
-    public function todoUpdate()
+    public function todoUpdate($id)
     {
-        //ダミーデータ確認
-        $todoUpdate = Todo::where('id', 1)
-        ->update(['title' => 'AAA']);
+        $todoUpdate = Todo::find($id)->update();
 
         return response()->json($todoUpdate);
     }

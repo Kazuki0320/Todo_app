@@ -3,27 +3,19 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::middleware(['middleware' => 'web'])->group(function () {
     //todo作成
-    Route::get('/todo', [PostController::class, 'create']);
+    Route::get('/todos', [PostController::class, 'create']);
+    Route::post('/todos', [PostController::class, 'create']);
     //todo一覧表示
+    Route::get('/posts', [PostController::class, 'index']);
     Route::post('/posts', [PostController::class, 'index']);
     //todo削除
-    Route::get('/todoDelete',  [PostController::class, 'todoDelete']);
-    Route::delete('/todoDelete', [PostController::class, 'todoDelete']);
+    Route::get('/todoDeleted/{id}',  [PostController::class, 'todoDelete']);
+    Route::delete('/todoDeleted/{id}', [PostController::class, 'todoDelete']);
     //todo編集
-    Route::get('/todoUpdate', [PostController::class, 'todoUpdate']);
-    Route::patch('/todoUpdate', [PostController::class, 'todoUpdate']);
+    Route::get('/todoUpdate/{id}', [PostController::class, 'todoUpdate']);
+    Route::patch('/todoUpdate/{id}', [PostController::class, 'todoUpdate']);
 });
+
+
