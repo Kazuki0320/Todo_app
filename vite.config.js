@@ -5,14 +5,14 @@ import laravel from "laravel-vite-plugin";
 
 const path = require("path");
 export default defineConfig({
-  plugins: [
+    plugins: [
     vue(),
     vuetify({
-      autoImport: true,
+        autoImport: true,
     }),
     laravel({
-      input: ["resources/css/app.css", "resources/js/app.js"],
-      refresh: true,
+    input: ["resources/css/app.css", "resources/js/app.js"],
+        refresh: true,
     }),
-  ],
+    ],
 })
