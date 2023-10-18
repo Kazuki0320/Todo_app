@@ -13,12 +13,12 @@ class PostsTableSeeder extends Seeder
             [
                 'id' => '1',
                 'title' => 'title1',
-                'content' => 'content1',
+                'status' => '0',
                 'created_at' => now(),
                 'updated_at'=> now()
             ]
         ];
 
-        DB::table('posts')->insert($data);
+        DB::table('todos')->insert($data);
     }
 }
