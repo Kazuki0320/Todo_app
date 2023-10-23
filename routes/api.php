@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\PostController;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
+
+Route::middleware(['middleware' => 'api'])->group(function () {
+    # 投稿作成
+    Route::post('/posts/create', [PostController::class, 'create']);
+    # 投稿一覧表示
+    Route::get('/posts', 'PostController@index');
+    # 投稿表示
+    Route::get('/posts/{id}', 'PostController@show');
+    # 投稿編集
+    Route::patch('/posts/update/{id}' , 'PostController@update');
+    # 投稿削除
+    Route::delete('/posts/{id}', 'PostController@delete');
+});
